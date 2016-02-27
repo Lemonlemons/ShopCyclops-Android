@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="CyclopsRed">#FF0000</color>
+    <color name="CyclopsDarkRed">#710000</color>
+    <color name="CyclopsLightRed">#a10000</color>
+    <color name="CyclopsLighterRed">#cc0000</color>
+    <color name="CyclopsLight2Red">#FF3333</color>
+    <color name="CyclopsLightestRed">#ffffc7c5</color>
+    <color name="InputGrey">#e8e8e8</color>
+    <color name="DarkerGrey">#ffaeaeae</color>
+    <color name="bg_msg_you">#5eb964</color>
+    <color name="InCartGreen">#5eb964</color>
+    <color name="PaidForBlue">#ff6f6eb9</color>
+    <color name="bg_msg_from">#e5e7eb</color>
+</resources>

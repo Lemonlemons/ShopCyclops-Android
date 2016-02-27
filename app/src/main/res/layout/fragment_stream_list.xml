@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/streamList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/emptyList">
+
+        <TextView
+            android:id="@+id/emptytext"
+            style="@style/StandText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="false"
+            android:gravity="center"/>
+
+        <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+            android:id="@+id/bufferingListProgress"
+            app:mlpb_show_arrow="true"
+            app:mlpb_arrow_height="15dp"
+            app:mlpb_arrow_width="30dp"
+            app:mlpb_enable_circle_background="false"
+            app:mlpb_progress_stoke_width="15dp"
+            app:mlpb_progress_text_visibility="invisible"
+            app:mlpb_progress_color="#000000"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="invisible"
+            android:layout_below="@+id/emptytext"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

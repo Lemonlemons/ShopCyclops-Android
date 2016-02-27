@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/DeliveryMap"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar
+        android:id="@+id/deliveryProgress"
+        app:mlpb_show_arrow="true"
+        app:mlpb_arrow_height="15dp"
+        app:mlpb_arrow_width="30dp"
+        app:mlpb_enable_circle_background="false"
+        app:mlpb_progress_stoke_width="15dp"
+        app:mlpb_progress_text_visibility="invisible"
+        app:mlpb_progress_color="#000"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+
+    <FrameLayout
+        android:id="@+id/child_fragment_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

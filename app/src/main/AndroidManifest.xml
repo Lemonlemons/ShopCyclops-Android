@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shopcyclops" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="22" />
+
+    <permission
+        android:name="info.androidhive.googlemapsv2.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="info.androidhive.googlemapsv2.permission.MAPS_RECEIVE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:logo="@drawable/ic_logo"
+        android:theme="@style/Theme.Cyclops" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyA8P6lCZ8eRjE1Hilp94HhHyHTiG6Kk-k4" />
+
+        <activity
+            android:name=".Activities.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.StreamMapActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.StreamMainActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMapActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.SignUpActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="com.github.thiagolocatelli.stripe.StripeActivity" />
+        <activity
+            android:name=".Activities.StripeActivity2"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.StreamSetupActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.StreamSetupMapActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.ShoppingActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".Activities.ViewerActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".Activities.PaymentInfoActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.EnterPaymentActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.PaymentInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.DeliveryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.OrderInfoActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.StreamEndedActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.StreamMainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.ProfileUpdateActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".Activities.ProfileActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+    </application>
+
+</manifest>

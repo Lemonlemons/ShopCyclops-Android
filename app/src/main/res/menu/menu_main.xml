@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/refresh"
+        android:title="Refresh"
+        android:icon="@drawable/refresh_arrow"
+        android:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/menu"
+        android:title="Menu"
+        android:icon="@drawable/menu_smiley"
+        android:showAsAction="ifRoom"
+        />
+
+    <!--<item-->
+        <!--android:id="@+id/action_cyclops"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="Create Broadcast"/>-->
+
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="200"-->
+        <!--android:title="@string/action_settings"/>-->
+
+</menu>

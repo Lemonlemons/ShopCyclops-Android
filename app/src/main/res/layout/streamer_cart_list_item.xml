@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:background="@color/CyclopsLightestRed">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".70"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView"
+            android:textSize="20dp"
+            style="@style/StandText"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price:"
+                android:id="@+id/textView3"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                style="@style/StandText"/>
+
+            <EditText
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editpriceText"
+                android:inputType="numberDecimal"
+                style="@style/StandText"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qty: "
+                android:id="@+id/textView2"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                style="@style/StandText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/quantityText"
+                android:textSize="15dp"
+                android:minWidth="20dp"
+                style="@style/StandText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status: "
+                android:id="@+id/textView4"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                style="@style/StandText"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/statusText"
+                android:textSize="15dp"
+                android:minWidth="20dp"
+                style="@style/StandText"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/cartbutton"
+        android:layout_width="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="3dp"
+        android:background="@color/CyclopsDarkRed"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/shopping_cart"
+        android:scaleType="fitCenter"
+        android:layout_height="fill_parent"
+        android:layout_weight=".15"
+        android:textColor="#fff"/>
+
+    <ImageButton
+        android:id="@+id/xbutton"
+        android:layout_width="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="3dp"
+        android:background="@color/CyclopsDarkRed"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/close_btn_x"
+        android:scaleType="fitCenter"
+        android:layout_height="fill_parent"
+        android:layout_weight=".15"
+        android:textColor="#fff"/>
+
+</LinearLayout>

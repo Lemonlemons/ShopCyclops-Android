@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tile_bg"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="11">
+
+        <ListView
+            android:id="@+id/StreamerCartlist"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:divider="@null"
+            android:transcriptMode="alwaysScroll"/>
+
+        <TextView
+            android:id="@+id/streamercartempty"
+            style="@style/StandText"
+            android:textSize="25dp"
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ItemCheckout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:weightSum="12"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/btnCloseStream"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:background="@color/DarkerGrey"
+            android:textColor="#FFFFFF"
+            android:text="CLOSE OFF STREAM"/>
+
+        <Button
+            android:id="@+id/btnCheckout"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:background="@color/CyclopsDarkRed"
+            android:textColor="#FFFFFF"
+            android:text="CHECKOUT"/>
+    </LinearLayout>
+
+</LinearLayout>

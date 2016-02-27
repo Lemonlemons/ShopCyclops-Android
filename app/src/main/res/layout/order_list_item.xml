@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dip">
+
+        <ImageView
+            android:src="@drawable/red_circle"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:id="@+id/statusCircle"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/orderTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#040404"
+            android:typeface="sans"
+            android:textSize="20dp"
+            android:text="asdfasdfasdfasdf"
+            android:textStyle="bold"
+            android:layout_margin="5dp"/>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/orderQuantityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#343434"
+                android:textSize="15dp"
+                android:text="Total Quantity:" />
+
+            <TextView
+                android:id="@+id/orderQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#343434"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="asdf"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/orderPriceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#343434"
+                android:textSize="15dp"
+                android:text="Total Price:"
+                android:layout_marginLeft="15dp"/>
+
+            <TextView
+                android:id="@+id/orderPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#343434"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="asdf"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

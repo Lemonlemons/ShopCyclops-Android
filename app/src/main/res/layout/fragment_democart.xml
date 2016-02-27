@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/CyclopsLightRed"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="To use the shopping cart please log in or sign up"
+            android:textColor="#fff"
+            android:textSize="40dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnCartJoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/CyclopsDarkRed"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:layout_marginRight="20dp"
+                android:text="Log In"
+                android:textColor="#fff"
+                android:onClick="Login"/>
+
+            <Button
+                android:id="@+id/btnCartSignup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/CyclopsDarkRed"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:layout_marginLeft="20dp"
+                android:text="Sign Up"
+                android:textColor="#fff"
+                android:onClick="SignUp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
