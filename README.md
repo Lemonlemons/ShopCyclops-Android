@@ -2,6 +2,8 @@
 
 The Android side of the Shopcyclops project. Shopping through another person using streaming video.
 
+Think twitch for shopping!
+
 Flow of the app (when secrets are included):
 1. Select your delivery location on a map.
 2. View available streamers in your area.
