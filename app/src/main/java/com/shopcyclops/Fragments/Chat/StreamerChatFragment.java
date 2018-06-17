@@ -3,7 +3,6 @@ package com.shopcyclops.Fragments.Chat;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,36 +10,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.pusher.client.Pusher;
 import com.pusher.client.PusherOptions;
-import com.pusher.client.channel.Channel;
-import com.pusher.client.channel.ChannelEventListener;
 import com.pusher.client.channel.PrivateChannel;
 import com.pusher.client.channel.PrivateChannelEventListener;
-import com.pusher.client.channel.SubscriptionEventListener;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
-import com.shopcyclops.Fragments.Broadcast.Stream;
-import com.shopcyclops.Fragments.Cart.CartItem;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Andrew on 8/9/2015.
@@ -70,18 +61,18 @@ public class StreamerChatFragment extends android.support.v4.app.Fragment {
         listMessages = new ArrayList<ChatMessage>();
         adapter = new ChatMessagesListAdapter(getActivity(), listMessages);
 
-        HttpAuthorizer authorizer = new HttpAuthorizer(SECRETS.PUSHER_AUTH_ENDPOINT);
-        SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
-        stream_id = getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+        HttpAuthorizer authorizer = new HttpAuthorizer(CONSTANTS.PUSHER_AUTH_ENDPOINT);
+        SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
+        stream_id = getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
         HashMap<String, String> hmap = new HashMap<String, String>();
         hmap.put("X-User-Token", token);
         hmap.put("X-User-Email", user_email);
         authorizer.setHeaders(hmap);
         PusherOptions options = new PusherOptions().setAuthorizer(authorizer);
-        pusher = new Pusher(SECRETS.PUSHER_KEY, options);
+        pusher = new Pusher(CONSTANTS.PUSHER_KEY, options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
@@ -192,7 +183,7 @@ public class StreamerChatFragment extends android.support.v4.app.Fragment {
                     client.addHeader("X-User-Token", token);
                     client.addHeader("X-User-Email", user_email);
                     StringEntity entity = new StringEntity(wrapper.toString());
-                    client.post(getActivity(), SECRETS.BASE_URL+"/messages", entity, "application/json", new JsonHttpResponseHandler() {
+                    client.post(getActivity(), CONSTANTS.BASE_URL+"/messages", entity, "application/json", new JsonHttpResponseHandler() {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String string, Throwable throwable) {
                             System.out.println(throwable.toString());

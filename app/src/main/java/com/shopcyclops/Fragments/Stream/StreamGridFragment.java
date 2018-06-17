@@ -10,8 +10,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -28,14 +26,13 @@ import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.shopcyclops.Activities.DeliveryActivity;
 import com.shopcyclops.Activities.ViewerActivity;
 import com.shopcyclops.Adapters.StreamGridAdapter;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.Fragments.Broadcast.Stream;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,9 +109,9 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), DeliveryActivity.class);
-                i.putExtra(SECRETS.CURRENT_STREAM_ID, 148);
-                i.putExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LAT, (double)46.854371);
-                i.putExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LNG, (double)-96.852111);
+                i.putExtra(CONSTANTS.CURRENT_STREAM_ID, 148);
+                i.putExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LAT, (double)46.854371);
+                i.putExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LNG, (double)-96.852111);
                 startActivity(i);
             }
         });
@@ -130,9 +127,9 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
         {
             mStreams.clear();
             mAdapter.notifyDataSetChanged();
-            final SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-            String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-            String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+            final SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+            String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+            String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
             buffer.setVisibility(View.VISIBLE);
             if (token == null && user_email == null) {
                 System.out.println("guest");
@@ -171,7 +168,7 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
         client.addHeader("Accept", "application/json");
         client.addHeader("X-User-Token", token);
         client.addHeader("X-User-Email", user_email);
-        client.get(getActivity(), SECRETS.BASE_URL+"/mobileuserindex?lat="+prefs.getFloat(SECRETS.CURRENT_DELIVERY_LAT, 0)+"&lng="+prefs.getFloat(SECRETS.CURRENT_DELIVERY_LNG, 0), commonhandler);
+        client.get(getActivity(), CONSTANTS.BASE_URL+"/mobileuserindex?lat="+prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LAT, 0)+"&lng="+prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LNG, 0), commonhandler);
     }
 
     private void guestindex(SharedPreferences prefs) {
@@ -179,7 +176,7 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
         PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
         client.setCookieStore(myCookieStore);
         client.addHeader("Accept", "application/json");
-        client.get(getActivity(), SECRETS.BASE_URL+"/mobileuserindex?lat="+prefs.getFloat(SECRETS.CURRENT_DELIVERY_LAT, 0)+"&lng="+prefs.getFloat(SECRETS.CURRENT_DELIVERY_LNG, 0), commonhandler);
+        client.get(getActivity(), CONSTANTS.BASE_URL+"/mobileuserindex?lat="+prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LAT, 0)+"&lng="+prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LNG, 0), commonhandler);
     }
 
     private JsonHttpResponseHandler commonhandler = new JsonHttpResponseHandler() {
@@ -223,11 +220,11 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         final Stream stream = mAdapter.getItem(position);
-        final SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        final String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        boolean creditcheck = prefs.getBoolean(SECRETS.CREDIT_CHECK, false);
-        prefs.edit().putInt(SECRETS.STREAM_PROGRESS, 2).apply();
+        final SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        final String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        boolean creditcheck = prefs.getBoolean(CONSTANTS.CREDIT_CHECK, false);
+        prefs.edit().putInt(CONSTANTS.STREAM_PROGRESS, 2).apply();
         if (creditcheck) {
             gotostream(true, stream, token);
         }
@@ -238,7 +235,7 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
             client.addHeader("Accept", "application/json");
             client.addHeader("X-User-Token", token);
             client.addHeader("X-User-Email", user_email);
-            client.get(getActivity(), SECRETS.BASE_URL+"/mobilecardsindex", new JsonHttpResponseHandler() {
+            client.get(getActivity(), CONSTANTS.BASE_URL+"/mobilecardsindex", new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                     Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -251,11 +248,11 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
                         JSONArray data = json.getJSONArray("data");
                         System.out.println("data: "+data.toString());
                         if (data.length() > 0) {
-                            prefs.edit().putBoolean(SECRETS.CREDIT_CHECK, true).apply();
+                            prefs.edit().putBoolean(CONSTANTS.CREDIT_CHECK, true).apply();
                             gotostream(true, stream, token);
                         }
                         else {
-                            prefs.edit().putBoolean(SECRETS.CREDIT_CHECK, false).apply();
+                            prefs.edit().putBoolean(CONSTANTS.CREDIT_CHECK, false).apply();
                             gotostream(false, stream, token);
                         }
                     }
@@ -270,11 +267,11 @@ public class StreamGridFragment extends Fragment implements AbsListView.OnItemCl
     private void gotostream(boolean credit, Stream stream, String token) {
         System.out.println(4);
         final Intent i = new Intent(getActivity(), ViewerActivity.class);
-        i.putExtra(SECRETS.CURRENT_STREAM_ID, stream.getStreamId());
-        i.putExtra(SECRETS.CURRENT_STREAM_TITLE, stream.getTitle());
-        i.putExtra(SECRETS.CURRENT_STREAM_DESCRIPTION, stream.getDescription());
-        i.putExtra(SECRETS.CURRENT_STREAM_STORE, stream.getStore());
-        i.putExtra(SECRETS.INTENT_CREDIT_CHECK, credit);
+        i.putExtra(CONSTANTS.CURRENT_STREAM_ID, stream.getStreamId());
+        i.putExtra(CONSTANTS.CURRENT_STREAM_TITLE, stream.getTitle());
+        i.putExtra(CONSTANTS.CURRENT_STREAM_DESCRIPTION, stream.getDescription());
+        i.putExtra(CONSTANTS.CURRENT_STREAM_STORE, stream.getStore());
+        i.putExtra(CONSTANTS.INTENT_CREDIT_CHECK, credit);
         if (token == null) {
             i.putExtra("LEVEL", 1);
         } else {

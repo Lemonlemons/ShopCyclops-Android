@@ -14,8 +14,8 @@ import com.github.thiagolocatelli.stripe.StripeButton;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import com.stripe.Stripe;
 
@@ -41,8 +41,8 @@ public class StripeActivity2 extends Activity {
 
         stripeSpinner = (ProgressBar) findViewById(R.id.stripeSpinner);
 
-        mApp2 = new StripeApp(this, "StripeAccount", SECRETS.STRIPE_CLIENT_ID,
-                SECRETS.STRIPE_SECRET_KEY, SECRETS.STRIPE_CALLBACK_URL, "read_write");
+        mApp2 = new StripeApp(this, "StripeAccount", CONSTANTS.STRIPE_CLIENT_ID,
+                CONSTANTS.STRIPE_SECRET_KEY, CONSTANTS.STRIPE_CALLBACK_URL, "read_write");
         mStripeButton2 = (StripeButton) findViewById(R.id.btnConnect2);
         mStripeButton2.setStripeApp(mApp2);
         mStripeButton2.setConnectMode(StripeApp.CONNECT_MODE.ACTIVITY);
@@ -57,10 +57,10 @@ public class StripeActivity2 extends Activity {
             case StripeApp.RESULT_CONNECTED: {
                 stripeSpinner.setVisibility(View.VISIBLE);
                 try {
-                    SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-                    String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-                    String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-                    //int user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
+                    SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                    String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+                    String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+                    //int user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
                     JSONObject wrapper = new JSONObject();
                     JSONObject jsonParams = new JSONObject();
                     jsonParams.put("publishable_key", data.getStringExtra("STRIPE_PUBLISHABLE_KEY"));
@@ -76,7 +76,7 @@ public class StripeActivity2 extends Activity {
                     StringEntity entity = new StringEntity(wrapper.toString());
                     client.addHeader("X-User-Token", token);
                     client.addHeader("X-User-Email", user_email);
-                    client.put(this, SECRETS.BASE_URL+"/users", entity, "application/json", new JsonHttpResponseHandler() {
+                    client.put(this, CONSTANTS.BASE_URL+"/users", entity, "application/json", new JsonHttpResponseHandler() {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                             Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -87,8 +87,8 @@ public class StripeActivity2 extends Activity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
                             System.out.println(json.toString());
-                            SharedPreferences prefs2 = StripeActivity2.this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-                            prefs2.edit().putBoolean(SECRETS.IS_CYCLOPS_KEY, true).apply();
+                            SharedPreferences prefs2 = StripeActivity2.this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                            prefs2.edit().putBoolean(CONSTANTS.IS_CYCLOPS_KEY, true).apply();
                             Intent i = new Intent(StripeActivity2.this, StreamMainActivity.class);
                             startActivity(i);
                             StripeActivity2.this.finish();

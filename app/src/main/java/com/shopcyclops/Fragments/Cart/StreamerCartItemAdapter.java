@@ -21,8 +21,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -203,14 +203,14 @@ public class StreamerCartItemAdapter extends BaseAdapter implements View.OnClick
         @Override
         public void onClick(View view) {
             try {
-                final SharedPreferences prefs = activity.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-                String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-                String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+                final SharedPreferences prefs = activity.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+                String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.addHeader("Accept", "application/json");
                 client.addHeader("X-User-Token", token);
                 client.addHeader("X-User-Email", user_email);
-                client.delete(activity, SECRETS.BASE_URL + "/items/" + mItem.getId(), new JsonHttpResponseHandler() {
+                client.delete(activity, CONSTANTS.BASE_URL + "/items/" + mItem.getId(), new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String error, Throwable throwable) {
                         System.out.println(throwable.toString());
@@ -246,9 +246,9 @@ public class StreamerCartItemAdapter extends BaseAdapter implements View.OnClick
                 try {
                     float pricer = Float.parseFloat(mPrice.getText().toString());
                     int quantity = Integer.parseInt(mQuantity.getText().toString());
-                    final SharedPreferences prefs = activity.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-                    String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-                    String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+                    final SharedPreferences prefs = activity.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                    String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+                    String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
                     AsyncHttpClient client = new AsyncHttpClient();
                     client.addHeader("Accept", "application/json");
                     client.addHeader("X-User-Token", token);
@@ -261,7 +261,7 @@ public class StreamerCartItemAdapter extends BaseAdapter implements View.OnClick
                     jsonParams.put("totalprice", ((int)(pricer * quantity * 100)));
                     wrapper.put("item", jsonParams);
                     StringEntity entity = new StringEntity(wrapper.toString());
-                    client.put(activity, SECRETS.BASE_URL + "/items/" + mItem.getId(), entity, "application/json", new JsonHttpResponseHandler() {
+                    client.put(activity, CONSTANTS.BASE_URL + "/items/" + mItem.getId(), entity, "application/json", new JsonHttpResponseHandler() {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String error, Throwable throwable) {
                             System.out.println(throwable.toString());

@@ -1,6 +1,5 @@
 package com.shopcyclops.Activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -19,21 +17,17 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
 import com.shopcyclops.Adapters.OrderListAdapter;
-import com.shopcyclops.Adapters.StreamListAdapter;
-import com.shopcyclops.Fragments.Broadcast.Stream;
 import com.shopcyclops.Fragments.Cart.CartItem;
-import com.shopcyclops.Fragments.Delivery.DeliveryListFragment;
 import com.shopcyclops.Fragments.Delivery.Order;
 import com.shopcyclops.Fragments.OrderList.OrderListFragment;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
+import com.shopcyclops.CONSTANTS;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,7 +49,7 @@ public class OrderInfoActivity extends FragmentActivity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mPrefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        mPrefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 
         mProgress = (CircleProgressBar) findViewById(R.id.bufferingListProgress);
 
@@ -130,16 +124,16 @@ public class OrderInfoActivity extends FragmentActivity {
         mProgress.setVisibility(View.VISIBLE);
         mItems.clear();
         mOrders.clear();
-        final SharedPreferences prefs = getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+        final SharedPreferences prefs = getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
         AsyncHttpClient client = new AsyncHttpClient();
         PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
         client.setCookieStore(myCookieStore);
         client.addHeader("Accept", "application/json");
         client.addHeader("X-User-Token", token);
         client.addHeader("X-User-Email", user_email);
-        client.get(this, SECRETS.BASE_URL + "/mobileusersordersanditems", new JsonHttpResponseHandler() {
+        client.get(this, CONSTANTS.BASE_URL + "/mobileusersordersanditems", new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                 if (json.toString() == null)

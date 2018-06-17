@@ -2,11 +2,9 @@ package com.shopcyclops.Activities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -27,14 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.shopcyclops.Adapters.StreamMainAdapter;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.Fragments.Stream.StreamGridFragment;
 import com.shopcyclops.Fragments.Stream.StreamListFragment;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 public class StreamMainActivity extends FragmentActivity implements android.app.ActionBar.TabListener {
 
@@ -170,8 +166,8 @@ public class StreamMainActivity extends FragmentActivity implements android.app.
     }
 
     private void addDrawerItems() {
-        SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        final String token = prefs.getString(SECRETS.TOKEN_KEY, null);
+        SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        final String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
         List<String> optionsArray = new ArrayList<String>();
         if (token == null) {
             optionsArray.add("SIGN UP");
@@ -236,8 +232,8 @@ public class StreamMainActivity extends FragmentActivity implements android.app.
 
     public void createBroadcast()
     {
-        SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        boolean is_cyclops = prefs.getBoolean(SECRETS.IS_CYCLOPS_KEY, false);
+        SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        boolean is_cyclops = prefs.getBoolean(CONSTANTS.IS_CYCLOPS_KEY, false);
         if (is_cyclops == true)
         {
             Intent i = new Intent(this, StreamSetupActivity.class);

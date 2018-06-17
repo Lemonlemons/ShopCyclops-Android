@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -24,9 +23,7 @@ import android.widget.Toast;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.internal.Constants;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
@@ -39,18 +36,14 @@ import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
 import com.shopcyclops.Activities.DeliveryActivity;
-import com.shopcyclops.Activities.LoginActivity;
-import com.shopcyclops.Fragments.Chat.ChatMessage;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -153,20 +146,20 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        configuration = new R5Configuration(R5StreamProtocol.RTSP, SECRETS.RED_HOST, SECRETS.RED_PORT, SECRETS.RED_APP_NAME, 1f);
-        stream_id = getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+        configuration = new R5Configuration(R5StreamProtocol.RTSP, CONSTANTS.RED_HOST, CONSTANTS.RED_PORT, CONSTANTS.RED_APP_NAME, 1f);
+        stream_id = getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
 
-        HttpAuthorizer authorizer = new HttpAuthorizer(SECRETS.PUSHER_AUTH_ENDPOINT);
-        final SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        final String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        final String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        stream_id = getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+        HttpAuthorizer authorizer = new HttpAuthorizer(CONSTANTS.PUSHER_AUTH_ENDPOINT);
+        final SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        final String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        final String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        stream_id = getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
         HashMap<String, String> hmap = new HashMap<String, String>();
         hmap.put("X-User-Token", token);
         hmap.put("X-User-Email", user_email);
         authorizer.setHeaders(hmap);
         PusherOptions options = new PusherOptions().setAuthorizer(authorizer);
-        Pusher pusher = new Pusher(SECRETS.PUSHER_KEY, options);
+        Pusher pusher = new Pusher(CONSTANTS.PUSHER_KEY, options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
@@ -230,7 +223,7 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
                                 public void onFinish() {
                                     snapshotText.setText("You are now cleared to checkout.");
                                     countdown.setVisibility(View.GONE);
-                                    prefs.edit().putInt(SECRETS.STREAM_PROGRESS, 4).apply();
+                                    prefs.edit().putInt(CONSTANTS.STREAM_PROGRESS, 4).apply();
                                     try {
                                         JSONObject wrapper = new JSONObject();
                                         JSONObject jsonParams = new JSONObject();
@@ -243,7 +236,7 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
                                         client.addHeader("X-User-Token", token);
                                         client.addHeader("X-User-Email", user_email);
                                         StringEntity entity = new StringEntity(wrapper.toString());
-                                        client.put(getActivity(), SECRETS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
+                                        client.put(getActivity(), CONSTANTS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
                                             @Override
                                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                                                 Toast.makeText(getActivity().getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -290,9 +283,9 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
                     @Override
                     public void run() {
                         Intent i = new Intent(getActivity(), DeliveryActivity.class);
-                        i.putExtra(SECRETS.CURRENT_STREAM_ID, stream_id);
-                        i.putExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LAT, (double)prefs.getFloat(SECRETS.CURRENT_DELIVERY_LAT, 0));
-                        i.putExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LNG, (double)prefs.getFloat(SECRETS.CURRENT_DELIVERY_LNG, 0));
+                        i.putExtra(CONSTANTS.CURRENT_STREAM_ID, stream_id);
+                        i.putExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LAT, (double)prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LAT, 0));
+                        i.putExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LNG, (double)prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LNG, 0));
                         startActivity(i);
                         getActivity().finish();
                     }
@@ -423,8 +416,8 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
 
         @Override
         protected String doInBackground(String... params) {
-            AmazonS3Client s3Client = new AmazonS3Client( new BasicAWSCredentials( SECRETS.AWS_ACCESS_KEY, SECRETS.AWS_SECRET_KEY ) );
-            PutObjectRequest putRequest = new PutObjectRequest( SECRETS.AWS_BUCKET_NAME, pictureFile.getName(), pictureFile );
+            AmazonS3Client s3Client = new AmazonS3Client( new BasicAWSCredentials( CONSTANTS.AWS_ACCESS_KEY, CONSTANTS.AWS_SECRET_KEY ) );
+            PutObjectRequest putRequest = new PutObjectRequest( CONSTANTS.AWS_BUCKET_NAME, pictureFile.getName(), pictureFile );
             s3Client.putObject(putRequest);
             return null;
         }
@@ -528,7 +521,7 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
                 parameters.setPreviewSize(pW, pH);
                 camera.setParameters(parameters);
                 r5Cam = new R5Camera(camera,pW,pH);
-                r5Cam.setBitrate(SECRETS.RED_BITRATE);
+                r5Cam.setBitrate(CONSTANTS.RED_BITRATE);
             }
             else {
                 Camera.Parameters parameters = camera.getParameters();
@@ -536,7 +529,7 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
 
                 camera.setParameters(parameters);
                 r5Cam = new R5Camera(camera,320,240);
-                r5Cam.setBitrate(SECRETS.RED_BITRATE);
+                r5Cam.setBitrate(CONSTANTS.RED_BITRATE);
             }
 
             if(cameraSelection==1) {
@@ -557,19 +550,19 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
 
 
             isPublishing = true;
-            stream.publish(getActivity().getIntent().getStringExtra(SECRETS.CURRENT_STREAM_TITLE)+getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0), R5Stream.RecordType.Live);
+            stream.publish(getActivity().getIntent().getStringExtra(CONSTANTS.CURRENT_STREAM_TITLE)+getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0), R5Stream.RecordType.Live);
             camera.startPreview();
 
             try {
-                SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-                String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-                String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-                int stream_id = getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
-                prefs.edit().putInt(SECRETS.STREAM_PROGRESS, 2).apply();
+                SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+                String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+                int stream_id = getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
+                prefs.edit().putInt(CONSTANTS.STREAM_PROGRESS, 2).apply();
                 JSONObject wrapper = new JSONObject();
                 JSONObject jsonParams = new JSONObject();
                 jsonParams.put("progress", 2);
-                jsonParams.put("thumbnail_url", SECRETS.AWS_IMAGE_URL+ pictureFile.getName().toString());
+                jsonParams.put("thumbnail_url", CONSTANTS.AWS_IMAGE_URL+ pictureFile.getName().toString());
                 wrapper.put("stream", jsonParams);
                 AsyncHttpClient client = new AsyncHttpClient();
                 PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
@@ -578,7 +571,7 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
                 client.addHeader("X-User-Token", token);
                 client.addHeader("X-User-Email", user_email);
                 StringEntity entity = new StringEntity(wrapper.toString());
-                client.put(getActivity(), SECRETS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
+                client.put(getActivity(), CONSTANTS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                         Toast.makeText(getActivity().getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -616,9 +609,9 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
                 rButton.setImageResource(R.drawable.red_dot);
                 cameraButton.setVisibility(View.VISIBLE);
                 try {
-                    SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-                    String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-                    String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+                    SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                    String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+                    String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
                     JSONObject wrapper = new JSONObject();
                     JSONObject jsonParams = new JSONObject();
                     jsonParams.put("progress", 99);
@@ -630,7 +623,7 @@ public class BroadcastFragment extends android.support.v4.app.Fragment implement
                     client.addHeader("X-User-Token", token);
                     client.addHeader("X-User-Email", user_email);
                     StringEntity entity = new StringEntity(wrapper.toString());
-                    client.put(getActivity(), SECRETS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
+                    client.put(getActivity(), CONSTANTS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                             Toast.makeText(getActivity().getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();

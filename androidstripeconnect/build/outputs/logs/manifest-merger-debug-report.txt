@@ -1,0 +1,29 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:1-12:12
+INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:1-12:12
+INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:1-12:12
+INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:1-12:12
+INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:1-12:12
+INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:1-12:12
+INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:1-12:12
+	package
+		ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:3:2-45
+		INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml
+		INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:5:2-27
+		INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml
+		INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:4:2-25
+		INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml
+		INJECTED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml
+application
+ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:7:5-10:19
+	android:label
+		ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:9:9-41
+	android:allowBackup
+		ADDED from /Users/andrewmoe/Projects/ShopCyclops/androidstripeconnect/src/main/AndroidManifest.xml:8:9-35

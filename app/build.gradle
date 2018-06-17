@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.shopcyclops"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -29,14 +30,14 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:26+'
     compile project(':androidstripeconnect')
     compile 'com.lsjwzh:materialloadingprogressbar:0.5.6-RELEASE'
     compile 'com.pusher:pusher-java-client:0.3.3'
     compile 'com.loopj.android:android-async-http:1.4.8'
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'com.amazonaws:aws-android-sdk-s3:2.+'
-    compile 'com.stripe:stripe-android:+'
+    compile 'com.stripe:stripe-android:2.1.0'
     compile 'com.github.dbachelder:CreditCardEntry:1.4.5'
     compile 'com.google.android.gms:play-services-maps:7.8.0'
     compile 'com.google.android.gms:play-services-location:7.8.0'

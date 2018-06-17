@@ -1,13 +1,11 @@
 package com.shopcyclops.Fragments.Delivery;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,17 +21,14 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.github.gcacace.signaturepad.views.SignaturePad;
-import com.google.android.gms.maps.model.LatLng;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
-import com.shopcyclops.Fragments.Cart.CartItem;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
+import com.shopcyclops.CONSTANTS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -41,7 +36,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 /**
  * Created by Andrew on 10/11/2015.
@@ -124,9 +118,9 @@ public class DeliverySignFragment extends Fragment {
     private void completeOrder()
     {
         try {
-            final SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-            String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-            String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+            final SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+            String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+            String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
             JSONObject wrapper = new JSONObject();
             JSONObject jsonParams = new JSONObject();
             jsonParams.put("is_delivered", true);
@@ -139,7 +133,7 @@ public class DeliverySignFragment extends Fragment {
             client.addHeader("X-User-Token", token);
             client.addHeader("X-User-Email", user_email);
             StringEntity entity = new StringEntity(wrapper.toString());
-            client.post(getActivity(), SECRETS.BASE_URL + "/completeorder?id=" + order_id, entity, "application/json", new JsonHttpResponseHandler() {
+            client.post(getActivity(), CONSTANTS.BASE_URL + "/completeorder?id=" + order_id, entity, "application/json", new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                     System.out.println(throwable.toString());
@@ -181,7 +175,7 @@ public class DeliverySignFragment extends Fragment {
         // Create a media file name
         String filename = "SignitureImage_OrderId_" + order_id + ".jpg";
         File mediaFile = new File(mediaStorageDir.getPath() + File.separator + filename);
-        signitureUrl = SECRETS.AWS_IMAGE_URL + filename;
+        signitureUrl = CONSTANTS.AWS_IMAGE_URL + filename;
 
         return mediaFile;
     }
@@ -226,8 +220,8 @@ public class DeliverySignFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... params) {
-            AmazonS3Client s3Client = new AmazonS3Client( new BasicAWSCredentials( SECRETS.AWS_ACCESS_KEY, SECRETS.AWS_SECRET_KEY ) );
-            PutObjectRequest putRequest = new PutObjectRequest( SECRETS.AWS_BUCKET_NAME, pictureFile.getName(), pictureFile );
+            AmazonS3Client s3Client = new AmazonS3Client( new BasicAWSCredentials( CONSTANTS.AWS_ACCESS_KEY, CONSTANTS.AWS_SECRET_KEY ) );
+            PutObjectRequest putRequest = new PutObjectRequest( CONSTANTS.AWS_BUCKET_NAME, pictureFile.getName(), pictureFile );
             s3Client.putObject(putRequest);
             return null;
         }

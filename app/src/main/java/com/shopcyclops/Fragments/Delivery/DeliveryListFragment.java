@@ -1,45 +1,22 @@
 package com.shopcyclops.Fragments.Delivery;
 
-import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
-import com.shopcyclops.Activities.ViewerActivity;
 import com.shopcyclops.Adapters.DeliveryListAdapter;
-import com.shopcyclops.Adapters.StreamListAdapter;
-import com.shopcyclops.Fragments.Broadcast.Stream;
 import com.shopcyclops.Fragments.Cart.CartItem;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
-
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

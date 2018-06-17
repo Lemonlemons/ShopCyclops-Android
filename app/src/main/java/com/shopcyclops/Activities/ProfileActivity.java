@@ -1,13 +1,10 @@
 package com.shopcyclops.Activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,15 +17,11 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Andrew on 9/26/2015.
@@ -55,13 +48,13 @@ public class ProfileActivity extends Activity {
         phoneNumber = (TextView)findViewById(R.id.phoneNumberText);
         spinner = (ProgressBar) findViewById(R.id.progressProfileBar);
 
-        prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 
-        firstName.setText(prefs.getString(SECRETS.FIRST_NAME_KEY, ""));
-        lastName.setText(prefs.getString(SECRETS.LAST_NAME_KEY, ""));
-        displayName.setText(prefs.getString(SECRETS.DISPLAY_NAME_KEY, ""));
-        email.setText(prefs.getString(SECRETS.EMAIL_KEY, ""));
-        phoneNumber.setText(prefs.getString(SECRETS.PHONE_NUMBER_KEY, ""));
+        firstName.setText(prefs.getString(CONSTANTS.FIRST_NAME_KEY, ""));
+        lastName.setText(prefs.getString(CONSTANTS.LAST_NAME_KEY, ""));
+        displayName.setText(prefs.getString(CONSTANTS.DISPLAY_NAME_KEY, ""));
+        email.setText(prefs.getString(CONSTANTS.EMAIL_KEY, ""));
+        phoneNumber.setText(prefs.getString(CONSTANTS.PHONE_NUMBER_KEY, ""));
     }
 
     @Override
@@ -101,9 +94,9 @@ public class ProfileActivity extends Activity {
             PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
             client.setCookieStore(myCookieStore);
             client.addHeader("Accept", "application/json");
-            client.addHeader("X-User-Token", prefs.getString(SECRETS.TOKEN_KEY, null));
-            client.addHeader("X-User-Email", prefs.getString(SECRETS.EMAIL_KEY, null));
-            client.delete(this, SECRETS.BASE_URL + "/users/sign_out", new JsonHttpResponseHandler() {
+            client.addHeader("X-User-Token", prefs.getString(CONSTANTS.TOKEN_KEY, null));
+            client.addHeader("X-User-Email", prefs.getString(CONSTANTS.EMAIL_KEY, null));
+            client.delete(this, CONSTANTS.BASE_URL + "/users/sign_out", new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
                     spinner.setVisibility(View.INVISIBLE);
@@ -115,15 +108,15 @@ public class ProfileActivity extends Activity {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     try {
                         prefs.edit()
-                                .remove(SECRETS.TOKEN_KEY)
-                                .remove(SECRETS.EMAIL_KEY)
-                                .remove(SECRETS.USER_ID_KEY)
-                                .remove(SECRETS.FIRST_NAME_KEY)
-                                .remove(SECRETS.LAST_NAME_KEY)
-                                .remove(SECRETS.DISPLAY_NAME_KEY)
-                                .remove(SECRETS.PHONE_NUMBER_KEY)
-                                .remove(SECRETS.IS_ADMIN_KEY)
-                                .remove(SECRETS.IS_CYCLOPS_KEY)
+                                .remove(CONSTANTS.TOKEN_KEY)
+                                .remove(CONSTANTS.EMAIL_KEY)
+                                .remove(CONSTANTS.USER_ID_KEY)
+                                .remove(CONSTANTS.FIRST_NAME_KEY)
+                                .remove(CONSTANTS.LAST_NAME_KEY)
+                                .remove(CONSTANTS.DISPLAY_NAME_KEY)
+                                .remove(CONSTANTS.PHONE_NUMBER_KEY)
+                                .remove(CONSTANTS.IS_ADMIN_KEY)
+                                .remove(CONSTANTS.IS_CYCLOPS_KEY)
                                 .apply();
                         Intent i = new Intent(ProfileActivity.this, StreamMainActivity.class);
                         startActivity(i);

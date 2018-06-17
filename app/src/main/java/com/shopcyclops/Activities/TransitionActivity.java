@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 
@@ -32,9 +32,9 @@ public class TransitionActivity extends Activity {
     public void checkcyclops()
     {
         SharedPreferences prefs = this.getSharedPreferences("com.shopcyclops", Context.MODE_PRIVATE);
-        String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        int user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
+        String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        int user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
         client = new AsyncHttpClient();
         client.addHeader("Content-Type","application/json");
         client.addHeader("X-User-Token", token);

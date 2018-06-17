@@ -5,30 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
-import com.shopcyclops.Fragments.Broadcast.Stream;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 import com.shopcyclops.Utils.GPSTracker;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Andrew on 10/5/2015.
@@ -51,7 +42,7 @@ public class StreamSetupMapActivity extends Activity {
         selectBtn = (Button)findViewById(R.id.btnDeliveryMapSelectPoint);
         progress = (CircleProgressBar)findViewById(R.id.bufferingDeliveryMapProgress);
 
-        prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 
         try {
             // Loading map
@@ -64,12 +55,12 @@ public class StreamSetupMapActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(StreamSetupMapActivity.this, ShoppingActivity.class);
-                i.putExtra(SECRETS.CURRENT_STREAM_TITLE, getIntent().getStringExtra(SECRETS.CURRENT_STREAM_TITLE));
-                i.putExtra(SECRETS.CURRENT_STREAM_DESCRIPTION, getIntent().getStringExtra(SECRETS.CURRENT_STREAM_DESCRIPTION));
-                i.putExtra(SECRETS.CURRENT_STREAM_STORE, getIntent().getStringExtra(SECRETS.CURRENT_STREAM_STORE));
-                i.putExtra(SECRETS.CURRENT_STREAM_ID, getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0));
-                i.putExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LAT, deliverypoint.latitude);
-                i.putExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LAT, deliverypoint.longitude);
+                i.putExtra(CONSTANTS.CURRENT_STREAM_TITLE, getIntent().getStringExtra(CONSTANTS.CURRENT_STREAM_TITLE));
+                i.putExtra(CONSTANTS.CURRENT_STREAM_DESCRIPTION, getIntent().getStringExtra(CONSTANTS.CURRENT_STREAM_DESCRIPTION));
+                i.putExtra(CONSTANTS.CURRENT_STREAM_STORE, getIntent().getStringExtra(CONSTANTS.CURRENT_STREAM_STORE));
+                i.putExtra(CONSTANTS.CURRENT_STREAM_ID, getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0));
+                i.putExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LAT, deliverypoint.latitude);
+                i.putExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LAT, deliverypoint.longitude);
                 startActivity(i);
             }
         });

@@ -1,17 +1,15 @@
 package com.shopcyclops.Activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 /**
  * Created by Andrew on 9/20/2015.
@@ -31,7 +29,7 @@ public class StreamEndedActivity extends Activity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        isComplete = getIntent().getBooleanExtra(SECRETS.IS_COMPLETE_STREAM, false);
+        isComplete = getIntent().getBooleanExtra(CONSTANTS.IS_COMPLETE_STREAM, false);
 
         mainLabel = (TextView) findViewById(R.id.mainText);
         secondaryLabel = (TextView) findViewById(R.id.secordayText);

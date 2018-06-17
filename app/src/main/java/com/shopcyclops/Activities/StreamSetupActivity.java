@@ -7,26 +7,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 import com.shopcyclops.Utils.GPSTracker;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Andrew on 7/22/2015.
@@ -86,11 +81,11 @@ public class StreamSetupActivity extends Activity {
         else {
             setupProgress.setVisibility(View.VISIBLE);
             try {
-                final SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-                String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-                String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-                int user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
-                String stream_url = "rtsp://"+SECRETS.RED_HOST+":"+SECRETS.RED_PORT+"/"+SECRETS.RED_APP_NAME+"/"+title;
+                final SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+                String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+                int user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
+                String stream_url = "rtsp://"+ CONSTANTS.RED_HOST+":"+ CONSTANTS.RED_PORT+"/"+ CONSTANTS.RED_APP_NAME+"/"+title;
                 JSONObject wrapper = new JSONObject();
                 JSONObject jsonParams = new JSONObject();
                 jsonParams.put("name", title);
@@ -108,7 +103,7 @@ public class StreamSetupActivity extends Activity {
                 client.addHeader("X-User-Token", token);
                 client.addHeader("X-User-Email", user_email);
                 StringEntity entity = new StringEntity(wrapper.toString());
-                client.post(this, SECRETS.BASE_URL+"/streams", entity, "application/json", new JsonHttpResponseHandler() {
+                client.post(this, CONSTANTS.BASE_URL+"/streams", entity, "application/json", new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                         Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -121,11 +116,11 @@ public class StreamSetupActivity extends Activity {
                         System.out.println(json.toString());
                         try {
                             Intent i = new Intent(StreamSetupActivity.this, ShoppingActivity.class);
-                            i.putExtra(SECRETS.CURRENT_STREAM_TITLE, title);
-                            i.putExtra(SECRETS.CURRENT_STREAM_DESCRIPTION, description);
-                            i.putExtra(SECRETS.CURRENT_STREAM_STORE, store);
-                            i.putExtra(SECRETS.CURRENT_STREAM_ID, json.getInt("id"));
-                            prefs.edit().putInt(SECRETS.STREAM_PROGRESS, 1).apply();
+                            i.putExtra(CONSTANTS.CURRENT_STREAM_TITLE, title);
+                            i.putExtra(CONSTANTS.CURRENT_STREAM_DESCRIPTION, description);
+                            i.putExtra(CONSTANTS.CURRENT_STREAM_STORE, store);
+                            i.putExtra(CONSTANTS.CURRENT_STREAM_ID, json.getInt("id"));
+                            prefs.edit().putInt(CONSTANTS.STREAM_PROGRESS, 1).apply();
                             startActivity(i);
                             setupProgress.setVisibility(View.INVISIBLE);
                             StreamSetupActivity.this.finish();

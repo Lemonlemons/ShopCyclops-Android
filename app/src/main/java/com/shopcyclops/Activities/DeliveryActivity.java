@@ -28,11 +28,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.Fragments.Cart.CartItem;
 import com.shopcyclops.Fragments.Delivery.DeliveryListFragment;
 import com.shopcyclops.Fragments.Delivery.DeliverySignFragment;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 import com.shopcyclops.Fragments.Delivery.Order;
 import com.shopcyclops.Utils.GPSTracker;
 
@@ -220,17 +220,17 @@ public class DeliveryActivity extends FragmentActivity implements DeliveryListFr
         mItems.clear();
         mOrders = new ArrayList<>(0);
         mOrders.clear();
-        final SharedPreferences prefs = getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        stream_id = getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+        final SharedPreferences prefs = getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        stream_id = getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
         AsyncHttpClient client = new AsyncHttpClient();
         PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
         client.setCookieStore(myCookieStore);
         client.addHeader("Accept", "application/json");
         client.addHeader("X-User-Token", token);
         client.addHeader("X-User-Email", user_email);
-        client.get(this, SECRETS.BASE_URL + "/mobileassociatedordersanditems?streamid=" + stream_id, new JsonHttpResponseHandler() {
+        client.get(this, CONSTANTS.BASE_URL + "/mobileassociatedordersanditems?streamid=" + stream_id, new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                 if (json.toString() == null)
@@ -305,7 +305,7 @@ public class DeliveryActivity extends FragmentActivity implements DeliveryListFr
             start = new LatLng(latitude, longitude);
             waypoints = new ArrayList<>();
             waypoints.add(start);
-            end = new LatLng(getIntent().getDoubleExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LAT, 0), getIntent().getDoubleExtra(SECRETS.CURRENT_STREAM_HOME_POINT_LNG, 0));
+            end = new LatLng(getIntent().getDoubleExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LAT, 0), getIntent().getDoubleExtra(CONSTANTS.CURRENT_STREAM_HOME_POINT_LNG, 0));
             googleURL = new StringBuilder();
             googleURL.append("https://maps.googleapis.com/maps/api/directions/json?origin=" + start.latitude + "," + start.longitude + "&destination=" + end.latitude + "," + end.longitude + "&waypoints=optimize:true");
             for (int i = 0; i < mOrders.size(); i++) {

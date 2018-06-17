@@ -3,7 +3,6 @@ package com.shopcyclops.Fragments.Chat;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,8 @@ import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -64,18 +63,18 @@ public class ViewerChatFragment extends android.support.v4.app.Fragment {
         listMessages = new ArrayList<ChatMessage>();
         adapter = new ChatMessagesListAdapter(getActivity(), listMessages);
 
-        HttpAuthorizer authorizer = new HttpAuthorizer(SECRETS.PUSHER_AUTH_ENDPOINT);
-        SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
-        stream_id = getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+        HttpAuthorizer authorizer = new HttpAuthorizer(CONSTANTS.PUSHER_AUTH_ENDPOINT);
+        SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
+        stream_id = getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
         HashMap<String, String> hmap = new HashMap<String, String>();
         hmap.put("X-User-Token", token);
         hmap.put("X-User-Email", user_email);
         authorizer.setHeaders(hmap);
         PusherOptions options = new PusherOptions().setAuthorizer(authorizer);
-        pusher = new Pusher(SECRETS.PUSHER_KEY, options);
+        pusher = new Pusher(CONSTANTS.PUSHER_KEY, options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
@@ -151,7 +150,7 @@ public class ViewerChatFragment extends android.support.v4.app.Fragment {
         client.addHeader("Accept", "application/json");
         client.addHeader("X-User-Token", token);
         client.addHeader("X-User-Email", user_email);
-        client.get(getActivity(), SECRETS.BASE_URL+"/streams/"+stream_id+"/mobileassociatedmessages", new JsonHttpResponseHandler() {
+        client.get(getActivity(), CONSTANTS.BASE_URL+"/streams/"+stream_id+"/mobileassociatedmessages", new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String string, Throwable throwable) {
                 Toast.makeText(getActivity().getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -224,7 +223,7 @@ public class ViewerChatFragment extends android.support.v4.app.Fragment {
                     client.addHeader("X-User-Token", token);
                     client.addHeader("X-User-Email", user_email);
                     StringEntity entity = new StringEntity(wrapper.toString());
-                    client.post(getActivity(), SECRETS.BASE_URL + "/messages", entity, "application/json", new JsonHttpResponseHandler() {
+                    client.post(getActivity(), CONSTANTS.BASE_URL + "/messages", entity, "application/json", new JsonHttpResponseHandler() {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String string, Throwable throwable) {
                             System.out.println(throwable.toString());

@@ -1,6 +1,5 @@
 package com.shopcyclops.Fragments.Subscribe;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,14 +7,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,13 +32,10 @@ import com.red5pro.streaming.config.R5Configuration;
 import com.red5pro.streaming.event.R5ConnectionEvent;
 import com.red5pro.streaming.event.R5ConnectionListener;
 import com.red5pro.streaming.view.R5VideoView;
-import com.red5pro.streaming.view.RendererWrapper;
-import com.shopcyclops.Activities.DeliveryActivity;
 import com.shopcyclops.Activities.StreamEndedActivity;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.Fragments.Broadcast.AppState;
-import com.shopcyclops.Fragments.Broadcast.PublishStreamConfig;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -102,21 +93,21 @@ public class SubscribeFragment extends android.support.v4.app.Fragment {
         final TextView countdown = (TextView) getActivity().findViewById(R.id.countdown);
         final TextView snapshotText = (TextView) getActivity().findViewById(R.id.snapshottext);
 
-        HttpAuthorizer authorizer = new HttpAuthorizer(SECRETS.PUSHER_AUTH_ENDPOINT);
-        final SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        final String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        final String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        final int stream_id = getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
-        lat = prefs.getFloat(SECRETS.CURRENT_DELIVERY_LAT, 0);
-        lng = prefs.getFloat(SECRETS.CURRENT_DELIVERY_LNG, 0);
-        user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
-        creditcode = prefs.getString(SECRETS.CURRENT_CARDCODE, "");
+        HttpAuthorizer authorizer = new HttpAuthorizer(CONSTANTS.PUSHER_AUTH_ENDPOINT);
+        final SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        final String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        final String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        final int stream_id = getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
+        lat = prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LAT, 0);
+        lng = prefs.getFloat(CONSTANTS.CURRENT_DELIVERY_LNG, 0);
+        user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
+        creditcode = prefs.getString(CONSTANTS.CURRENT_CARDCODE, "");
         HashMap<String, String> hmap = new HashMap<String, String>();
         hmap.put("X-User-Token", token);
         hmap.put("X-User-Email", user_email);
         authorizer.setHeaders(hmap);
         PusherOptions options = new PusherOptions().setAuthorizer(authorizer);
-        Pusher pusher = new Pusher(SECRETS.PUSHER_KEY, options);
+        Pusher pusher = new Pusher(CONSTANTS.PUSHER_KEY, options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
@@ -157,7 +148,7 @@ public class SubscribeFragment extends android.support.v4.app.Fragment {
             public void onEvent(String channel, String event, String data) {
                 try {
                     JSONObject json = new JSONObject(data);
-                    prefs.edit().putInt(SECRETS.STREAM_PROGRESS, 3).apply();
+                    prefs.edit().putInt(CONSTANTS.STREAM_PROGRESS, 3).apply();
                     final int milliseconds = (json.getInt("timerlength")*1000);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -198,7 +189,7 @@ public class SubscribeFragment extends android.support.v4.app.Fragment {
                                         client.addHeader("X-User-Token", token);
                                         client.addHeader("X-User-Email", user_email);
                                         StringEntity entity = new StringEntity(wrapper.toString());
-                                        client.post(getActivity(), SECRETS.BASE_URL + "/orders", entity, "application/json", new JsonHttpResponseHandler() {
+                                        client.post(getActivity(), CONSTANTS.BASE_URL + "/orders", entity, "application/json", new JsonHttpResponseHandler() {
                                             @Override
                                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                                                 Toast.makeText(getActivity().getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -286,7 +277,7 @@ public class SubscribeFragment extends android.support.v4.app.Fragment {
         v.setKeepScreenOn(true);
 
         //setup the stream with the user config settings
-        stream = new R5Stream(new R5Connection(new R5Configuration(R5StreamProtocol.RTSP, SECRETS.RED_HOST, SECRETS.RED_PORT, SECRETS.RED_APP_NAME, 1.0f)));
+        stream = new R5Stream(new R5Connection(new R5Configuration(R5StreamProtocol.RTSP, CONSTANTS.RED_HOST, CONSTANTS.RED_PORT, CONSTANTS.RED_APP_NAME, 1.0f)));
 
         //set log level to be informative
         stream.setLogLevel(R5Stream.LOG_LEVEL_INFO);
@@ -336,7 +327,7 @@ public class SubscribeFragment extends android.support.v4.app.Fragment {
         videoView.attachStream(stream);
 
         //start the stream
-        String appcode = getActivity().getIntent().getStringExtra(SECRETS.CURRENT_STREAM_TITLE) + getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+        String appcode = getActivity().getIntent().getStringExtra(CONSTANTS.CURRENT_STREAM_TITLE) + getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
         stream.play(appcode);
         //update the state for the toggle button
         setStreaming(true);

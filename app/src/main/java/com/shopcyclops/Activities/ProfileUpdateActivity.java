@@ -9,18 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -47,13 +45,13 @@ public class ProfileUpdateActivity extends Activity {
         editEmail = (EditText)findViewById(R.id.emailEdit);
         editPhoneNumber = (EditText)findViewById(R.id.phoneNumberEdit);
 
-        prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 
-        editFirstName.setText(prefs.getString(SECRETS.FIRST_NAME_KEY, ""));
-        editLastName.setText(prefs.getString(SECRETS.LAST_NAME_KEY, ""));
-        editDisplayName.setText(prefs.getString(SECRETS.DISPLAY_NAME_KEY, ""));
-        editEmail.setText(prefs.getString(SECRETS.EMAIL_KEY, ""));
-        editPhoneNumber.setText(prefs.getString(SECRETS.PHONE_NUMBER_KEY, ""));
+        editFirstName.setText(prefs.getString(CONSTANTS.FIRST_NAME_KEY, ""));
+        editLastName.setText(prefs.getString(CONSTANTS.LAST_NAME_KEY, ""));
+        editDisplayName.setText(prefs.getString(CONSTANTS.DISPLAY_NAME_KEY, ""));
+        editEmail.setText(prefs.getString(CONSTANTS.EMAIL_KEY, ""));
+        editPhoneNumber.setText(prefs.getString(CONSTANTS.PHONE_NUMBER_KEY, ""));
 
         update = (Button) findViewById(R.id.btnUpdate);
         updateProgress = (ProgressBar) findViewById(R.id.updateProgress);
@@ -67,8 +65,8 @@ public class ProfileUpdateActivity extends Activity {
                     PersistentCookieStore myCookieStore = new PersistentCookieStore(ProfileUpdateActivity.this);
                     client.setCookieStore(myCookieStore);
                     client.addHeader("Accept", "application/json");
-                    client.addHeader("X-User-Token", prefs.getString(SECRETS.TOKEN_KEY, null));
-                    client.addHeader("X-User-Email", prefs.getString(SECRETS.EMAIL_KEY, null));
+                    client.addHeader("X-User-Token", prefs.getString(CONSTANTS.TOKEN_KEY, null));
+                    client.addHeader("X-User-Email", prefs.getString(CONSTANTS.EMAIL_KEY, null));
                     JSONObject wrapper = new JSONObject();
                     JSONObject jsonParams = new JSONObject();
                     jsonParams.put("firstname", editFirstName.getText().toString());
@@ -78,7 +76,7 @@ public class ProfileUpdateActivity extends Activity {
                     jsonParams.put("displayname", editDisplayName.getText().toString());
                     wrapper.put("user", jsonParams);
                     StringEntity entity = new StringEntity(wrapper.toString());
-                    client.put(ProfileUpdateActivity.this, SECRETS.BASE_URL + "/users", entity, "application/json", new JsonHttpResponseHandler() {
+                    client.put(ProfileUpdateActivity.this, CONSTANTS.BASE_URL + "/users", entity, "application/json", new JsonHttpResponseHandler() {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                             Toast.makeText(ProfileUpdateActivity.this, throwable.toString(), Toast.LENGTH_LONG);
@@ -95,11 +93,11 @@ public class ProfileUpdateActivity extends Activity {
                                 String display_name = editDisplayName.getText().toString();
                                 String phone_number = editPhoneNumber.getText().toString();
                                 prefs.edit()
-                                        .putString(SECRETS.EMAIL_KEY, user_email)
-                                        .putString(SECRETS.FIRST_NAME_KEY, first_name)
-                                        .putString(SECRETS.LAST_NAME_KEY, last_name)
-                                        .putString(SECRETS.DISPLAY_NAME_KEY, display_name)
-                                        .putString(SECRETS.PHONE_NUMBER_KEY, phone_number)
+                                        .putString(CONSTANTS.EMAIL_KEY, user_email)
+                                        .putString(CONSTANTS.FIRST_NAME_KEY, first_name)
+                                        .putString(CONSTANTS.LAST_NAME_KEY, last_name)
+                                        .putString(CONSTANTS.DISPLAY_NAME_KEY, display_name)
+                                        .putString(CONSTANTS.PHONE_NUMBER_KEY, phone_number)
                                         .apply();
                                 Intent i = new Intent(ProfileUpdateActivity.this, ProfileActivity.class);
                                 startActivity(i);

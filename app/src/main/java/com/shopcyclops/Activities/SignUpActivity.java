@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -82,7 +82,7 @@ public class SignUpActivity extends Activity {
                 client.addHeader("Accept", "application/json");
                 StringEntity entity = new StringEntity(wrapper.toString());
                 System.out.println(wrapper.toString());
-                client.post(this, SECRETS.BASE_URL+"/users", entity, "application/json", new JsonHttpResponseHandler() {
+                client.post(this, CONSTANTS.BASE_URL+"/users", entity, "application/json", new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                         spinner.setVisibility(View.INVISIBLE);
@@ -93,7 +93,7 @@ public class SignUpActivity extends Activity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
-                            SharedPreferences prefs = SignUpActivity.this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                            SharedPreferences prefs = SignUpActivity.this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
                             String token = response.getString("authentication_token");
                             int user_id = response.getInt("id");
                             String user_email = response.getString("email");
@@ -104,15 +104,15 @@ public class SignUpActivity extends Activity {
                             boolean is_admin = response.getBoolean("is_admin");
                             boolean is_cyclops = response.getBoolean("is_cyclops");
                             prefs.edit()
-                                    .putString(SECRETS.TOKEN_KEY, token)
-                                    .putInt(SECRETS.USER_ID_KEY, user_id)
-                                    .putString(SECRETS.EMAIL_KEY, user_email)
-                                    .putString(SECRETS.FIRST_NAME_KEY, first_name)
-                                    .putString(SECRETS.LAST_NAME_KEY, last_name)
-                                    .putString(SECRETS.DISPLAY_NAME_KEY, display_name)
-                                    .putString(SECRETS.PHONE_NUMBER_KEY, phone_number)
-                                    .putBoolean(SECRETS.IS_ADMIN_KEY, is_admin)
-                                    .putBoolean(SECRETS.IS_CYCLOPS_KEY, is_cyclops)
+                                    .putString(CONSTANTS.TOKEN_KEY, token)
+                                    .putInt(CONSTANTS.USER_ID_KEY, user_id)
+                                    .putString(CONSTANTS.EMAIL_KEY, user_email)
+                                    .putString(CONSTANTS.FIRST_NAME_KEY, first_name)
+                                    .putString(CONSTANTS.LAST_NAME_KEY, last_name)
+                                    .putString(CONSTANTS.DISPLAY_NAME_KEY, display_name)
+                                    .putString(CONSTANTS.PHONE_NUMBER_KEY, phone_number)
+                                    .putBoolean(CONSTANTS.IS_ADMIN_KEY, is_admin)
+                                    .putBoolean(CONSTANTS.IS_CYCLOPS_KEY, is_cyclops)
                                     .apply();
                             Intent i = new Intent(SignUpActivity.this, StreamMainActivity.class);
                             spinner.setVisibility(View.INVISIBLE);

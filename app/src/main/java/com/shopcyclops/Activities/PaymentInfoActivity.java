@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -69,16 +69,16 @@ public class PaymentInfoActivity extends Activity {
     public void getCards() {
         try {
             paymentProgress.setVisibility(View.VISIBLE);
-            final SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-            String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-            String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+            final SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+            String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+            String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
             AsyncHttpClient client = new AsyncHttpClient();
             PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
             client.setCookieStore(myCookieStore);
             client.addHeader("Accept", "application/json");
             client.addHeader("X-User-Token", token);
             client.addHeader("X-User-Email", user_email);
-            client.get(this, SECRETS.BASE_URL+"/mobilecardsindex", new JsonHttpResponseHandler() {
+            client.get(this, CONSTANTS.BASE_URL+"/mobilecardsindex", new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                     Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +31,8 @@ import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.util.HttpAuthorizer;
 import com.shopcyclops.Activities.PaymentInfoActivity;
 import com.shopcyclops.Activities.StreamMainActivity;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -43,7 +42,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Andrew on 9/4/2015.
@@ -78,18 +76,18 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
         Resources res = getResources();
         adapter=new ViewerCartItemAdapter( getActivity(), CustomListViewValuesArr, res );
 
-        HttpAuthorizer authorizer = new HttpAuthorizer(SECRETS.PUSHER_AUTH_ENDPOINT);
-        prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
-        stream_id = getActivity().getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+        HttpAuthorizer authorizer = new HttpAuthorizer(CONSTANTS.PUSHER_AUTH_ENDPOINT);
+        prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
+        stream_id = getActivity().getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
         HashMap<String, String> hmap = new HashMap<String, String>();
         hmap.put("X-User-Token", token);
         hmap.put("X-User-Email", user_email);
         authorizer.setHeaders(hmap);
         PusherOptions options = new PusherOptions().setAuthorizer(authorizer);
-        pusher = new Pusher(SECRETS.PUSHER_KEY, options);
+        pusher = new Pusher(CONSTANTS.PUSHER_KEY, options);
 
         pusher.connect(new ConnectionEventListener() {
             @Override
@@ -272,7 +270,7 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
             emptyText.setVisibility(View.VISIBLE);
         }
         //
-        final boolean creditok = prefs.getBoolean(SECRETS.CREDIT_CHECK, false);
+        final boolean creditok = prefs.getBoolean(CONSTANTS.CREDIT_CHECK, false);
 
         quantityChooser = (Spinner) getView().findViewById(R.id.quantitySpinner);
         ArrayAdapter<CharSequence> quantityadapter = ArrayAdapter.createFromResource(getActivity(), R.array.quantity_array, android.R.layout.simple_spinner_item);
@@ -285,7 +283,7 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (prefs.getInt(SECRETS.STREAM_PROGRESS, 1) == 2) {
+                if (prefs.getInt(CONSTANTS.STREAM_PROGRESS, 1) == 2) {
                     if (creditok) {
                         try {
                             final CartItem sending = new CartItem();
@@ -313,7 +311,7 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
                             client.addHeader("X-User-Token", token);
                             client.addHeader("X-User-Email", user_email);
                             StringEntity entity = new StringEntity(wrapper.toString());
-                            client.post(getActivity(), SECRETS.BASE_URL + "/items", entity, "application/json", new JsonHttpResponseHandler() {
+                            client.post(getActivity(), CONSTANTS.BASE_URL + "/items", entity, "application/json", new JsonHttpResponseHandler() {
                                 @Override
                                 public void onFailure(int statusCode, Header[] headers, String string, Throwable throwable) {
                                     System.out.println(throwable.toString());
@@ -393,7 +391,7 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
                                 if (CustomListViewValuesArr.get(i).getViewer_id() == user_id) {
                                     try {
 
-                                        client.delete(getActivity(), SECRETS.BASE_URL + "/items/" + CustomListViewValuesArr.get(i).getId(), new JsonHttpResponseHandler() {
+                                        client.delete(getActivity(), CONSTANTS.BASE_URL + "/items/" + CustomListViewValuesArr.get(i).getId(), new JsonHttpResponseHandler() {
                                             @Override
                                             public void onFailure(int statusCode, Header[] headers, String error, Throwable throwable) {
                                                 System.out.println(throwable.toString());
@@ -449,16 +447,16 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
 
     public void getCards() {
         try {
-            final SharedPreferences prefs = getActivity().getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-            String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-            String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+            final SharedPreferences prefs = getActivity().getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+            String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+            String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
             AsyncHttpClient client = new AsyncHttpClient();
             PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
             client.setCookieStore(myCookieStore);
             client.addHeader("Accept", "application/json");
             client.addHeader("X-User-Token", token);
             client.addHeader("X-User-Email", user_email);
-            client.get(getActivity(), SECRETS.BASE_URL+"/mobilecardsindex", new JsonHttpResponseHandler() {
+            client.get(getActivity(), CONSTANTS.BASE_URL+"/mobilecardsindex", new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                     Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -513,7 +511,7 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
 
     public void chooseCards(String code) {
         try {
-            prefs.edit().putString(SECRETS.CURRENT_CARDCODE, code).commit();
+            prefs.edit().putString(CONSTANTS.CURRENT_CARDCODE, code).commit();
             AsyncHttpClient client = new AsyncHttpClient();
             PersistentCookieStore myCookieStore = new PersistentCookieStore(getActivity());
             client.setCookieStore(myCookieStore);
@@ -529,7 +527,7 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
             for (int i = 0; i < CustomListViewValuesArr.size(); i++) {
                 if ((CustomListViewValuesArr.get(i).getViewer_id() == user_id) && (CustomListViewValuesArr.get(i).getProgress() == 2)) {
                     try {
-                        client.put(getActivity(), SECRETS.BASE_URL + "/items/" + CustomListViewValuesArr.get(i).getId(), entity, "application/json", new JsonHttpResponseHandler() {
+                        client.put(getActivity(), CONSTANTS.BASE_URL + "/items/" + CustomListViewValuesArr.get(i).getId(), entity, "application/json", new JsonHttpResponseHandler() {
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String error, Throwable throwable) {
                                 System.out.println(throwable.toString());
@@ -562,7 +560,7 @@ public class ViewerCartFragment extends android.support.v4.app.Fragment {
 //                    client.addHeader("Accept", "application/json");
 //                    client.addHeader("X-User-Token", token);
 //                    client.addHeader("X-User-Email", user_email);
-//                    client.delete(getActivity(), SECRETS.BASE_URL + "/items/" + CustomListViewValuesArr.get(i).getId(), new JsonHttpResponseHandler() {
+//                    client.delete(getActivity(), CONSTANTS.BASE_URL + "/items/" + CustomListViewValuesArr.get(i).getId(), new JsonHttpResponseHandler() {
 //                        @Override
 //                        public void onFailure(int statusCode, Header[] headers, String error, Throwable throwable) {
 //                            System.out.println(throwable.toString());

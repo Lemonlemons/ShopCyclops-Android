@@ -1,6 +1,5 @@
 package com.shopcyclops.Activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,10 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -35,9 +32,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.lsjwzh.widget.materialloadingprogressbar.CircleProgressBar;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.Fragments.Broadcast.Stream;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 import com.shopcyclops.Utils.GPSTracker;
 
 import org.apache.http.Header;
@@ -79,9 +76,9 @@ public class StreamMapActivity extends Activity {
         mActivityTitle = getTitle().toString();
         progress = (CircleProgressBar)findViewById(R.id.bufferingProgress);
 
-        prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
 
-        allStreams = prefs.getString(SECRETS.ALL_STREAMS, null);
+        allStreams = prefs.getString(CONSTANTS.ALL_STREAMS, null);
 
         try {
             // Loading map
@@ -94,8 +91,8 @@ public class StreamMapActivity extends Activity {
             @Override
             public void onClick(View view) {
                 prefs.edit()
-                        .putFloat(SECRETS.CURRENT_DELIVERY_LAT, (float)deliverypoint.latitude)
-                        .putFloat(SECRETS.CURRENT_DELIVERY_LNG, (float)deliverypoint.longitude)
+                        .putFloat(CONSTANTS.CURRENT_DELIVERY_LAT, (float)deliverypoint.latitude)
+                        .putFloat(CONSTANTS.CURRENT_DELIVERY_LNG, (float)deliverypoint.longitude)
                         .apply();
                 Intent i = new Intent(StreamMapActivity.this, StreamMainActivity.class);
                 startActivity(i);
@@ -183,7 +180,7 @@ public class StreamMapActivity extends Activity {
             PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
             client.setCookieStore(myCookieStore);
             client.addHeader("Accept", "application/json");
-            client.get(this, SECRETS.BASE_URL+"/mobileallstreams", new JsonHttpResponseHandler() {
+            client.get(this, CONSTANTS.BASE_URL+"/mobileallstreams", new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                     Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -197,7 +194,7 @@ public class StreamMapActivity extends Activity {
                         googleMap.clear();
                         double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
-                        prefs.edit().putString(SECRETS.ALL_STREAMS, json.toString()).apply();
+                        prefs.edit().putString(CONSTANTS.ALL_STREAMS, json.toString()).apply();
                         // create marker
                         userMarkerOptions = new MarkerOptions().position(new LatLng(latitude, longitude)).title("My Location");
 
@@ -289,8 +286,8 @@ public class StreamMapActivity extends Activity {
     }
 
     private void addDrawerItems() {
-        SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        final String token = prefs.getString(SECRETS.TOKEN_KEY, null);
+        SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        final String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
         List<String> optionsArray = new ArrayList<String>();
         if (token == null) {
             optionsArray.add("SIGN UP");
@@ -355,8 +352,8 @@ public class StreamMapActivity extends Activity {
 
     public void createBroadcast()
     {
-        SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        boolean is_cyclops = prefs.getBoolean(SECRETS.IS_CYCLOPS_KEY, false);
+        SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        boolean is_cyclops = prefs.getBoolean(CONSTANTS.IS_CYCLOPS_KEY, false);
         if (is_cyclops == true)
         {
             Intent i = new Intent(this, StreamSetupActivity.class);

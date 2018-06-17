@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,8 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -51,10 +50,10 @@ public class ViewerCartItemAdapter extends BaseAdapter implements View.OnClickLi
         data=d;
         res = resLocal;
 
-        final SharedPreferences prefs = activity.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-        token = prefs.getString(SECRETS.TOKEN_KEY, null);
-        user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-        user_id = prefs.getInt(SECRETS.USER_ID_KEY, 0);
+        final SharedPreferences prefs = activity.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+        token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+        user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+        user_id = prefs.getInt(CONSTANTS.USER_ID_KEY, 0);
 
         /***********  Layout inflator to call external xml layout () ***********/
         inflater = ( LayoutInflater )activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -185,7 +184,7 @@ public class ViewerCartItemAdapter extends BaseAdapter implements View.OnClickLi
                 client.addHeader("Accept", "application/json");
                 client.addHeader("X-User-Token", token);
                 client.addHeader("X-User-Email", user_email);
-                client.delete(activity, SECRETS.BASE_URL + "/items/" + mItem.getId(), new JsonHttpResponseHandler() {
+                client.delete(activity, CONSTANTS.BASE_URL + "/items/" + mItem.getId(), new JsonHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                         Toast.makeText(activity, throwable.toString(), Toast.LENGTH_LONG).show();

@@ -8,15 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
-import com.shopcyclops.Fragments.Broadcast.Stream;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -37,7 +35,7 @@ public class SplashScreenActivity extends Activity {
         PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
         client.setCookieStore(myCookieStore);
         client.addHeader("Accept", "application/json");
-        client.get(this, SECRETS.BASE_URL+"/mobileallstreams", new JsonHttpResponseHandler() {
+        client.get(this, CONSTANTS.BASE_URL+"/mobileallstreams", new JsonHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String string, Throwable throwable) {
                 Toast.makeText(getApplicationContext(), throwable.toString(), Toast.LENGTH_LONG).show();
@@ -59,9 +57,9 @@ public class SplashScreenActivity extends Activity {
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                final SharedPreferences prefs = SplashScreenActivity.this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+                final SharedPreferences prefs = SplashScreenActivity.this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
                 Intent i = new Intent(SplashScreenActivity.this, StreamMapActivity.class);
-                prefs.edit().putString(SECRETS.ALL_STREAMS, json.toString()).apply();
+                prefs.edit().putString(CONSTANTS.ALL_STREAMS, json.toString()).apply();
                 startActivity(i);
 
                 // close this activity

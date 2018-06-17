@@ -16,7 +16,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.Adapters.ShoppingAdapter;
 
 import org.apache.http.Header;
@@ -109,10 +109,10 @@ public class ShoppingActivity extends FragmentActivity implements ActionBar.TabL
     @Override
     public void onStop() {
         try {
-            SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-            String token = prefs.getString(SECRETS.TOKEN_KEY, null);
-            String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
-            int stream_id = this.getIntent().getIntExtra(SECRETS.CURRENT_STREAM_ID, 0);
+            SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+            String token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+            String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
+            int stream_id = this.getIntent().getIntExtra(CONSTANTS.CURRENT_STREAM_ID, 0);
             JSONObject wrapper = new JSONObject();
             JSONObject jsonParams = new JSONObject();
             jsonParams.put("progress", 99);
@@ -124,7 +124,7 @@ public class ShoppingActivity extends FragmentActivity implements ActionBar.TabL
             client.addHeader("X-User-Token", token);
             client.addHeader("X-User-Email", user_email);
             StringEntity entity = new StringEntity(wrapper.toString());
-            client.put(this, SECRETS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
+            client.put(this, CONSTANTS.BASE_URL + "/streams/"+stream_id+"/mobileupdate", entity, "application/json", new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String string, Throwable throwable) {
                     System.out.println(throwable.toString());

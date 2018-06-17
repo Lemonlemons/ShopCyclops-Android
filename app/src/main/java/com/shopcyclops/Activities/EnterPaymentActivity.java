@@ -2,7 +2,6 @@ package com.shopcyclops.Activities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -17,19 +16,15 @@ import com.devmarvel.creditcardentry.library.CreditCardForm;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
+import com.shopcyclops.CONSTANTS;
 import com.shopcyclops.R;
-import com.shopcyclops.SECRETS;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
 import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Andrew on 9/12/2015.
@@ -93,7 +88,7 @@ public class EnterPaymentActivity extends Activity {
                 );
 
                 card.validateCard();
-                Stripe stripe = new Stripe(SECRETS.STRIPE_PUBLIC_KEY);
+                Stripe stripe = new Stripe(CONSTANTS.STRIPE_PUBLIC_KEY);
 
                 stripe.createToken(
                         card,
@@ -120,9 +115,9 @@ public class EnterPaymentActivity extends Activity {
     private void addTokenToUser(final String token) {
         try {
             System.out.println(token);
-            final SharedPreferences prefs = this.getSharedPreferences(SECRETS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
-            String user_token = prefs.getString(SECRETS.TOKEN_KEY, null);
-            String user_email = prefs.getString(SECRETS.EMAIL_KEY, null);
+            final SharedPreferences prefs = this.getSharedPreferences(CONSTANTS.SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+            String user_token = prefs.getString(CONSTANTS.TOKEN_KEY, null);
+            String user_email = prefs.getString(CONSTANTS.EMAIL_KEY, null);
 //            JSONObject wrapper = new JSONObject();
 //            JSONObject jsonParams = new JSONObject();
 //            jsonParams.put("stripetoken", token);
@@ -134,7 +129,7 @@ public class EnterPaymentActivity extends Activity {
             client.addHeader("X-User-Token", user_token);
             client.addHeader("X-User-Email", user_email);
 //            StringEntity entity = new StringEntity(wrapper.toString());
-            client.get(this, SECRETS.BASE_URL + "/mobileaddcard?token="+token, new JsonHttpResponseHandler() {
+            client.get(this, CONSTANTS.BASE_URL + "/mobileaddcard?token="+token, new JsonHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject json) {
                     spinner.setVisibility(View.INVISIBLE);
